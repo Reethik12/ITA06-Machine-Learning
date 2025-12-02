@@ -1,25 +1,27 @@
-data = [
-    ["Sunny", "Warm", "Normal", "Strong", "Warm", "Same", "Yes"],
-    ["Sunny", "Warm", "High",   "Strong", "Warm", "Same", "Yes"],
-    ["Rainy", "Cold", "High",   "Strong", "Warm", "Change", "No"],
-    ["Sunny", "Warm", "High",   "Strong", "Cool", "Change", "Yes"]
-]
+import csv
+file = open("enjoysport.csv", "r")
+dataset = []
+reader = csv.reader(file)
 
+for row in reader:
+    dataset.append(row)
+file.close()  
 
-hypothesis = ["Ø", "Ø", "Ø", "Ø", "Ø", "Ø"]
+print("Dataset:")
+for row in dataset:
+    print(row)
 
+num_attributes = len(dataset[0]) - 1
 
-for row in data:
-    attributes = row[:-1]   
-    result = row[-1]        
+hypothesis = ["0"] * num_attributes
+print("\nInitial Hypothesis:", hypothesis)
 
-    if result == "Yes":     
-        for i in range(len(hypothesis)):
-            if hypothesis[i] == "Ø":
-                hypothesis[i] = attributes[i]
-            elif hypothesis[i] != attributes[i]:
+for row in dataset:
+    if row[-1] == "yes":  
+        for i in range(num_attributes):
+            if hypothesis[i] == "0":
+                hypothesis[i] = row[i]
+            elif hypothesis[i] != row[i]:
                 hypothesis[i] = "?"
 
-
-print("Final Hypothesis:")
-print(hypothesis)
+print("\nFinal Hypothesis:", hypothesis)
